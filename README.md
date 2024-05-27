@@ -1,1 +1,1 @@
-Website is live at https://rentify-backend-sriram.vercel.app
+Website is live at https://rentify-by-sriram.vercel.app/
