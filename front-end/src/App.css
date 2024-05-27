@@ -1,0 +1,42 @@
+.text-center{
+  text-align: center;
+}
+
+.tableColHeading{
+  font-weight: bold;
+}
+
+.searchBox{
+  border: none;
+  padding: 10px;
+  font-size: 20px;
+  /* border-radius: 25px; */
+  min-width: 75%;
+  padding-left: 0;
+  background-color: transparent;
+}
+
+.searchBox:focus{
+  outline: none;
+}
+
+.searchIcon{
+  scale: 1.7;
+  color: green;
+  vertical-align: middle;
+  cursor: pointer;
+  
+}
+
+.searchContainer{
+  border: 1px solid gray;
+  width: fit-content;
+  border-radius: 25px;
+  padding: 0 20px;
+  margin: auto;
+}
+
+i{
+  color: #3B5B40;
+}
+

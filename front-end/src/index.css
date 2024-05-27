@@ -1,0 +1,31 @@
+body {
+  margin: 0;
+  padding: 0;
+  background-color: #E8F7E8;
+}
+
+
+
+
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+::-moz-selection { /* Code for Firefox */
+  color: black;
+  background: #b3e4b3;
+}
+
+::selection {
+  color: black;
+  background: #b3e4b3;
+}
+
+/* Firefox
+input[type=number] {
+  -moz-appearance: textfield;
+} */
+
+
