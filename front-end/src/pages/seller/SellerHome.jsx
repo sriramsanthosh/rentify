@@ -16,11 +16,13 @@ export default function SellerHome() {
   const [loader, setLoader] = useState(false);
   const [fetchEach, setfetchEach] = useState(false);
   const [deletedProperty, setDeletedProperty] = useState(true);
+  const [zeorProperties, setZeroProperties] = useState(false);
 
   const fetchProperties = async () => {
     try {
       setLoader(true);
       setServerError(false);
+      setZeroProperties(false);
       const token = localStorage.getItem("token");
       const res = await Axios.get(`${process.env.REACT_APP_SERVER}/seller/fetch-all`, {
         headers: {
@@ -28,8 +30,11 @@ export default function SellerHome() {
         }
       });
       if (res.status === 200) {
-        if(res.data.PropertiesIdArray.length>0){
+        if (res.data.PropertiesIdArray.length > 0) {
           setPropertiesIdArray(res.data.PropertiesIdArray);
+        }
+        else {
+          setZeroProperties(true);
         }
       }
       else {
@@ -51,6 +56,7 @@ export default function SellerHome() {
     for (const propertyId of propertiesIdArray) {
       try {
         const res = await Axios.get(`${process.env.REACT_APP_SERVER}/property/fetch?id=${propertyId}`);
+        setLoader(false);
         if (res.status === 200) {
           setPropertiesArray(prevArray => [...prevArray, res.data.PropertyData]);
         } else {
@@ -59,6 +65,7 @@ export default function SellerHome() {
       } catch (err) {
         console.log(err);
         setServerError(true);
+        setLoader(false);
         enqueueSnackbar("Connection Error..", { variant: "error" });
       }
     }
@@ -71,6 +78,7 @@ export default function SellerHome() {
       fetchProperties();
     }
     if (propertiesIdArray.length > 0 && PropertiesArray.length === 0) {
+      setLoader(true);
       fetchEachProperty();
     }
   }, [propertiesIdArray, deletedProperty]);
@@ -92,7 +100,7 @@ export default function SellerHome() {
         </Button>
       </div>
       {serverError && <PageInternalServerError />}
-      {!serverError && <div>{!loader && PropertiesArray.length === 0 && <h3 style={{ textAlign: "center" }}>No Properties to show</h3>}
+      {!serverError && <div>{zeorProperties && <h3 style={{ textAlign: "center" }}>No Properties to show</h3>}
         {loader && <div style={{ margin: "50px", textAlign: "center" }}>
           <CircularLoader />
         </div>}
@@ -105,7 +113,6 @@ export default function SellerHome() {
             <CircularLoader />
           </div>}
         </div>}</div>}
-
     </div>
   );
 }
