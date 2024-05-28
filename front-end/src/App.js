@@ -8,6 +8,7 @@ import NewProperty from './pages/seller/NewProperty';
 import UpdatePropertyPage from './pages/seller/UpdateProperty';
 import PageNotFound from './components/PageNotFound';
 
+
 function MyApp() {
   const { enqueueSnackbar } = useSnackbar();
   

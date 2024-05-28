@@ -49,7 +49,6 @@ export default function Login({setValue}) {
       email: data.get('email'),
       password: data.get('password'),
     }).then(async(res)=>{
-     
       if(res.status === 200){
         let variant = "success";
         enqueueSnackbar(res.data.message, { variant });

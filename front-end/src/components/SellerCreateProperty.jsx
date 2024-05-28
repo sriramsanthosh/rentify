@@ -100,7 +100,6 @@ export default function CreateProperty() {
       images: images, // Base64 encoded images
     };
     const token = localStorage.getItem("token");
-    // setTimeout(async() => {
       await Axios.post(`${process.env.REACT_APP_SERVER}/property/register`, propertyData, {
         headers: {
           Authorization: `Bearer ${token}`
@@ -121,8 +120,6 @@ export default function CreateProperty() {
         let variant = 'error';
         enqueueSnackbar('Connection Error!', { variant });
       });
-
-    // }, 5000);
     setLoadingCreate(false);
   };
 

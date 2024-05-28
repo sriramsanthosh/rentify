@@ -126,8 +126,8 @@ export default function NavBar() {
                 onClose={handleClose}
               >
                 <MenuItem onClick={handleClose}>Profile</MenuItem>
-                {localStorage.getItem("category")==="buyer" && <MenuItem onClick={handleClose}>My Favorites</MenuItem>}
-                {localStorage.getItem("category")==="seller" && <MenuItem onClick={handleClose}>My Properties</MenuItem>}
+                {localStorage.getItem("category")==="buyer" && <><MenuItem onClick={handleClose}>My Favorites</MenuItem><MenuItem onClick={(e)=>{handleClose(e); }}>Seller Dashboard</MenuItem></>}
+                {localStorage.getItem("category")==="seller" && <><MenuItem onClick={handleClose}>My Properties</MenuItem><MenuItem onClick={handleClose}>Buyer Dashboard</MenuItem></>}
                 <MenuItem onClick={handleLogOut}>Logout</MenuItem>
               </Menu>
             </div>

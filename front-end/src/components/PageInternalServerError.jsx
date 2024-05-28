@@ -10,7 +10,6 @@ export default function PageInternalServerError() {
                 e.preventDefault();
                 window.location.reload();
             }}>Refresh Page</NavLink> </div>
-            
         </div></div>
     )
 }

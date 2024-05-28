@@ -9,7 +9,7 @@ import { useSnackbar } from 'notistack';
 import CircularLoader from '../../components/loaders/CircularLoader';
 import PageInternalServerError from '../../components/PageInternalServerError';
 
-export default function BuyerHome() {
+export default function BuyerHome({setCatergoyOfUser}) {
     const navigate = useNavigate();
     const { enqueueSnackbar } = useSnackbar();
     const [fetchEach, setfetchEach] = useState(false);
@@ -83,6 +83,19 @@ export default function BuyerHome() {
                 </p>
                 {searchQuery.length > 0 && <div>Searching for '{searchQuery}'</div>}
             </form>
+            {localStorage.getItem("category") && <div style={{textAlign:"center", marginTop:"20px"}}>
+            <Button
+          variant='contained'
+          color='error'
+          onClick={(e) => {
+            e.preventDefault();
+            localStorage.setItem("category", "seller");
+            setCatergoyOfUser("seller");
+          }}
+        >
+          <i style={{ color: "white" }} className="fa-solid fa-dollar"></i>&nbsp; Become a Seller
+        </Button>
+            </div>}
             {serverError && <PageInternalServerError />}
             {!serverError && propertiesArray.length === 0 &&
                 <div style={{ margin: "50px", textAlign: "center" }}>

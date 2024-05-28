@@ -1,13 +1,13 @@
 import React, { useEffect, useState } from 'react';
 import { Button } from '@mui/material';
-import { useNavigate } from 'react-router-dom';
+import { NavLink, useNavigate } from 'react-router-dom';
 import { useSnackbar } from 'notistack';
 import Axios from 'axios';
 import PropertyCard from '../../components/SellerPropertyCard';
 import CircularLoader from '../../components/loaders/CircularLoader';
 import PageInternalServerError from '../../components/PageInternalServerError';
 
-export default function SellerHome() {
+export default function SellerHome({setCatergoyOfUser}) {
   const navigate = useNavigate();
   const { enqueueSnackbar } = useSnackbar();
   const [serverError, setServerError] = useState(false);
@@ -97,10 +97,21 @@ export default function SellerHome() {
           }}
         >
           <i style={{ color: "white" }} className="fa-solid fa-square-plus"></i>&nbsp; New Property
+        </Button>&nbsp;
+        <Button
+          variant='contained'
+          color='error'
+          onClick={(e) => {
+            e.preventDefault();
+            localStorage.setItem("category", "buyer");
+            setCatergoyOfUser("buyer");
+          }}
+        >
+          <i style={{ color: "white" }} className="fa-solid fa-dollar"></i>&nbsp; Buy a Property
         </Button>
       </div>
       {serverError && <PageInternalServerError />}
-      {!serverError && <div>{zeorProperties && <h3 style={{ textAlign: "center" }}>No Properties to show</h3>}
+      {!serverError && <div>{zeorProperties && <h3 style={{ textAlign: "center", margin:"100px auto" }}>Create your first property. <NavLink to="/new-property">Click Here</NavLink></h3>}
         {loader && <div style={{ margin: "50px", textAlign: "center" }}>
           <CircularLoader />
         </div>}
