@@ -42,7 +42,35 @@ module.exports.register = async(req, res)=>{
 
 module.exports.toggleLike = async(req, res)=>{
     try{
-        console.log(req.query);
+        // console.log(req.query);
+        const PropertyId = req.query.id;
+        
+        console.log(req.headers);
+
+        
+        const decoded = await verifyToken(req.headers.authorization);
+        console.log(decoded);
+        
+        if(req.body.like){
+            console.log("liked");
+            const tempProperty = await Property.findOne({_id: PropertyId}).then(async(property)=>{
+                await property.likes.push(decoded.id);
+                await property.save();
+            }).catch((err)=>{
+                console.log(err);
+            });
+            console.log(tempProperty);    
+        }
+        else{
+            console.log("unliked");
+            const tempProperty = await Property.findOne({_id: PropertyId}).then(async(property)=>{
+                await property.likes.pop();
+                await property.save();
+            }).catch((err)=>{
+                console.log(err);
+            })
+            console.log(tempProperty);
+        }
         return res.status(200).json({
             message:"Liked"
         });
@@ -70,6 +98,28 @@ module.exports.fetchProperty = async(req, res)=>{
         });
     }
     catch(err){
+        return res.status(500).json({
+            message:"Internal Server Error"
+        });
+    }
+}
+
+module.exports.update = async(req, res)=>{
+    try{
+        console.log("Updation");
+        const decoded = await verifyToken(req.headers.authorization);
+        if(decoded.id !== req.query.sellerId){
+            return res.status(203).json({
+                message:"Access Denied.. You update delete this"
+            });
+        }
+        await Property.deleteOne({_id: req.query.id});
+        return res.status(200).json({
+            message:"Updated.."
+        });
+    }
+    catch(err){
+        console.log(err);
         return res.status(500).json({
             message:"Internal Server Error"
         });

@@ -4,8 +4,8 @@ import BuyerHome from "./buyer/BuyerHome";
 import SellerHome from "./seller/SellerHome";
 
 
-const Home = () => {
-    const [categoryOfUser, setCatergoyOfUser]=useState();
+const Home = ({categoryOfUser, setCatergoyOfUser}) => {
+    
     useEffect(()=>{
 
     }, [categoryOfUser]);

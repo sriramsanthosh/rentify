@@ -7,6 +7,8 @@ import { SnackbarProvider, useSnackbar } from 'notistack';
 import NewProperty from './pages/seller/NewProperty';
 import UpdatePropertyPage from './pages/seller/UpdateProperty';
 import PageNotFound from './components/PageNotFound';
+import ProfilePage from './pages/ProfilePage';
+import { useState } from 'react';
 
 
 function MyApp() {
@@ -16,16 +18,18 @@ function MyApp() {
     enqueueSnackbar('This is a success message!', { variant });
   };
 
+  const [categoryOfUser, setCatergoyOfUser]=useState();
   return (
     <div style={{backgroundColor:"#E8F7E8", minHeight:"100vh", height:"auto"}}>
     <BrowserRouter>
-        <NavBar />
+        <NavBar setCatergoyOfUser={setCatergoyOfUser}/>
         <div>
           <Routes>
             <Route exact path='/access' element={<AccessPage />} />
-            <Route exact path='/' element={<Home />} />
+            <Route exact path='/' element={<Home categoryOfUser={categoryOfUser} setCatergoyOfUser={setCatergoyOfUser} />} />
             <Route exact path='/new-property' element={<NewProperty />} />
             <Route exact path='/update-property' element={<UpdatePropertyPage />} />
+            <Route exact path='/profile' element={<ProfilePage />} />
             <Route exact path='*' element={<PageNotFound />} />
           </Routes>
         </div>

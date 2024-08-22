@@ -4,15 +4,13 @@ import Button from '@mui/material/Button';
 import CssBaseline from '@mui/material/CssBaseline';
 import TextField from '@mui/material/TextField';
 import FormControlLabel from '@mui/material/FormControlLabel';
-import Checkbox from '@mui/material/Checkbox';
 import Link from '@mui/material/Link';
 import Grid from '@mui/material/Grid';
 import Box from '@mui/material/Box';
-import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
-import { NavLink, useNavigate, useParams, useSearchParams } from 'react-router-dom';
+import { useNavigate, useSearchParams } from 'react-router-dom';
 import Axios from 'axios';
 import { useSnackbar } from 'notistack';
 import Radio from '@mui/material/Radio';
@@ -105,7 +103,6 @@ export default function UpdateProperty() {
             images: images, // Base64 encoded images
         };
         const token = localStorage.getItem("token");
-        // setTimeout(async() => {
         await Axios.post(`${process.env.REACT_APP_SERVER}/property/update`, propertyData, {
             headers: {
                 Authorization: `Bearer ${token}`
@@ -115,7 +112,7 @@ export default function UpdateProperty() {
                 if (res.status === 200) {
                     let variant = "success";
                     enqueueSnackbar(res.data.message, { variant });
-                    // navigate('/properties'); // Redirect after successful creation
+                    // navigate('/properties');
                 } else {
                     let variant = "error";
                     enqueueSnackbar(res.data.message, { variant });
@@ -126,8 +123,6 @@ export default function UpdateProperty() {
                 let variant = 'error';
                 enqueueSnackbar('Connection Error!', { variant });
             });
-
-        // }, 5000);
         setLoadingCreate(false);
     };
 

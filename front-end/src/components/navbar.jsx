@@ -16,7 +16,7 @@ import { useNavigate } from 'react-router-dom';
 import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 import { useSnackbar } from 'notistack';
 
-export default function NavBar() {
+export default function NavBar({setCatergoyOfUser}) {
   const Navigate = useNavigate();
   const { enqueueSnackbar } = useSnackbar();
   const [auth, setAuth] = React.useState(localStorage.getItem("token"));
@@ -84,7 +84,7 @@ export default function NavBar() {
             aria-label="menu"
             sx={{ mr: 2 }}
           >
-            <img src={require("../images/srs-logo.jpg")} alt="logo" width={"35px"} style={{borderRadius:'50%'}} />
+            <img src={require("../images/logo1.png")} alt="logo" width={"35px"} style={{borderRadius:'50%'}} />
           </IconButton>
           <Typography variant="h6" component="div" sx={{ flexGrow: 1}}>
             <span style={{userSelect:"none" , cursor:"pointer"}} onClick={handleLogo}>Rentify</span>
@@ -125,9 +125,9 @@ export default function NavBar() {
                 open={Boolean(anchorEl)}
                 onClose={handleClose}
               >
-                <MenuItem onClick={handleClose}>Profile</MenuItem>
-                {localStorage.getItem("category")==="buyer" && <><MenuItem onClick={handleClose}>My Favorites</MenuItem><MenuItem onClick={(e)=>{handleClose(e); }}>Seller Dashboard</MenuItem></>}
-                {localStorage.getItem("category")==="seller" && <><MenuItem onClick={handleClose}>My Properties</MenuItem><MenuItem onClick={handleClose}>Buyer Dashboard</MenuItem></>}
+                <MenuItem onClick={(e)=>{handleClose(e); Navigate("/profile")}}>Profile</MenuItem>
+                {localStorage.getItem("category")==="buyer" && <><MenuItem onClick={handleClose}>My Favorites</MenuItem><MenuItem onClick={(e)=>{handleClose(e);localStorage.setItem("category", "seller"); setCatergoyOfUser("seller"); Navigate("/");}}>Seller Dashboard</MenuItem></>}
+                {localStorage.getItem("category")==="seller" && <><MenuItem onClick={handleClose}>My Properties</MenuItem><MenuItem onClick={(e)=>{handleClose(e); localStorage.setItem("category", "buyer"); setCatergoyOfUser("buyer"); Navigate("/");}}>Buyer Dashboard</MenuItem></>}
                 <MenuItem onClick={handleLogOut}>Logout</MenuItem>
               </Menu>
             </div>

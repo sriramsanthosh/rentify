@@ -14,16 +14,30 @@ import { useNavigate } from 'react-router-dom';
 import  Axios  from 'axios';
 import LoadingButton from '@mui/lab/LoadingButton';
 import SaveIcon from '@mui/icons-material/Save';
+import { useRef } from 'react';
 
 
 export default function RecipeReviewCard({ CardId, propertyData }) {
   const Navigate = useNavigate();
+  const [userLiked, setUserliked] = React.useState(false);
+
+  React.useEffect(()=>{
+    const LikesArray = propertyData.likes;
+    console.log(propertyData);
+    console.log(LikesArray);
+    let user_id = localStorage.getItem("user_id");
+    for(let i = 0; i<LikesArray.length; i++){
+      if(LikesArray[i] === user_id){
+        const likeIcon = document.getElementById(`${CardId}Like`);
+        likeIcon.style.color = "green";
+      }
+    }
+  }, [])
+
   const monthArray = [
     "January", "February", "March", "April", "May", "June", 
     "July", "August", "September", "October", "November", "December"
   ];
-
-  
   
   const [loadingButton, setLoadingButton] = React.useState(false);
   const { enqueueSnackbar } = useSnackbar();
@@ -31,23 +45,33 @@ export default function RecipeReviewCard({ CardId, propertyData }) {
   const [likes, setLikes] = React.useState(propertyData.likes.length);
   const [interested, setInterested] = React.useState(false);
   
+  const audioRef = useRef(null);
+  const audioRef2 = useRef(null);
 
   const handleLikeAction = async(e) => {
     e.preventDefault();
+
     const likeIcon = document.getElementById(`${CardId}Like`);
+    const token = localStorage.getItem("token");
     if (likeIcon.style.color === "green") {
+      if (audioRef2.current) {
+        audioRef2.current.play();
+      }
       likeIcon.style.color = "lightgray"
       setLikes(likes - 1);
-      await Axios.post(`${process.env.REACT_APP_SERVER}/property/toggle-like?id=${propertyData._id}`).then((res)=>{
+      await Axios.post(`${process.env.REACT_APP_SERVER}/property/toggle-like?id=${propertyData._id}`, {like: false}, {headers:{Authorization: `Bearer ${token}`}}).then((res)=>{
         console.log(res.data.message);
       }).catch((err)=>{
         console.log(err);
       });
     }
     else {
+      if (audioRef.current) {
+        audioRef.current.play();
+      }
       likeIcon.style.color = "green";
       setLikes(likes + 1);
-      await Axios.post(`${process.env.REACT_APP_SERVER}/property/toggle-like?id=${propertyData._id}`).then((res)=>{
+      await Axios.post(`${process.env.REACT_APP_SERVER}/property/toggle-like?id=${propertyData._id}`,{like: true}, {headers:{Authorization: `Bearer ${token}`}}).then((res)=>{
         console.log(res.data.message);
       }).catch((err)=>{
         console.log(err);
@@ -70,6 +94,8 @@ export default function RecipeReviewCard({ CardId, propertyData }) {
             <Typography>
               &nbsp;{likes}
             </Typography>
+            <audio ref={audioRef} src={require("../audio/bubble_like.mp3")} />
+            <audio ref={audioRef2} src={require("../audio/bubble_dislike.wav")} />
           </IconButton>
         }
         title={propertyData.seller.fName+" "+propertyData.seller.lName}

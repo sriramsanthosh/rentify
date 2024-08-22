@@ -9,5 +9,5 @@ export default function PageNotFound() {
       <div style={{ width: "80%", margin: "auto", textAlign: "center" }}>The Page you are looking for doesn't exist or an other error occured. Go back to <NavLink to="/">Home</NavLink></div>
     </div>
     </div>
-  )
+  );
 }
